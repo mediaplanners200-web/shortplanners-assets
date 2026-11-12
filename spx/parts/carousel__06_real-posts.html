@@ -1,0 +1,47 @@
+<!-- 숏플래너스 · carousel / real-posts
+     아임웹 코드 위젯에 이 파일 내용을 그대로 붙여 넣으세요. (00_common 위젯이 이 페이지 맨 위에 있어야 합니다) · 혼합: 제목은 아임웹 타이틀 위젯, 이 코드는 그 아래 -->
+<div class="spx" data-spx-page="carousel">
+<!-- 5) 실제 발행물 -->
+  <section class="sec hy-nohead" id="real">
+    <div class="wrap">
+      
+      
+      
+      <div class="real real2">
+        <div class="slider">
+          <div class="slides" id="slides" tabindex="0" aria-label="카드뉴스 예시 7장">
+            <img data-spx-src="media/cards/s01.jpg" alt="표지: 구독자 2.2만인데 조회수 314만이 나왔어요">
+            <img data-spx-src="media/cards/s02.jpg" alt="2장" loading="lazy"><img data-spx-src="media/cards/s03.jpg" alt="3장" loading="lazy"><img data-spx-src="media/cards/s04.jpg" alt="4장" loading="lazy"><img data-spx-src="media/cards/s05.jpg" alt="5장" loading="lazy"><img data-spx-src="media/cards/s06.jpg" alt="6장" loading="lazy"><img data-spx-src="media/cards/s07.jpg" alt="마지막 장: 문의 안내" loading="lazy">
+          </div>
+          <div class="sl-ui"><div class="dots" id="dots"></div><div class="navs"><button type="button" id="sPrev" aria-label="이전 장">←</button><button type="button" id="sNext" aria-label="다음 장">→</button></div></div>
+          <p class="sl-cap">표지 → 본문 5장 → 마지막 장 문의 안내 구성. 옆으로 넘겨 보세요.</p>
+        </div>
+        <div class="ig">
+          <div class="ig-head"><div class="ig-ava"><span>MP</span></div><div><b>@mediaplanners_magazine</b><small>자동화 프로그램으로 운영하는 매거진 계정</small></div></div>
+          <div class="ig-grid" id="igGrid"></div>
+          <div class="ig-links">
+            <a href="https://www.instagram.com/mediaplanners_magazine/" target="_blank" rel="noopener">매거진 계정 보기 ↗</a>
+            <a href="https://www.instagram.com/mediaplanners_official/" target="_blank" rel="noopener">공식 계정 보기 ↗</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+<script>
+SPX.def('carousel:realPosts', function(S){
+  var slides = document.getElementById('slides'), dots = document.getElementById('dots');
+  if(slides && dots){
+    var nS = slides.children.length;
+    dots.innerHTML = Array.apply(null,{length:nS}).map(function(_,i){ return '<i'+(i?'':' class="on"')+'></i>'; }).join('');
+    var sIdx = function(){ return Math.round(slides.scrollLeft / slides.clientWidth); };
+    slides.addEventListener('scroll', function(){ var k=sIdx(); dots.querySelectorAll('i').forEach(function(d,i){ d.classList.toggle('on', i===k); }); }, {passive:true});
+    var go = function(k){ k=Math.max(0,Math.min(nS-1,k)); slides.scrollTo({left:k*slides.clientWidth, behavior: S.reduce?'auto':'smooth'}); };
+    document.getElementById('sPrev').onclick=function(){ go(sIdx()-1); };
+    document.getElementById('sNext').onclick=function(){ go(sIdx()+1); };
+    slides.addEventListener('keydown', function(e){ if(e.key==='ArrowRight'){ go(sIdx()+1); e.preventDefault(); } if(e.key==='ArrowLeft'){ go(sIdx()-1); e.preventDefault(); } });
+  }
+  var ig = document.getElementById('igGrid');
+  if(ig){ var h=[]; for(var k=27;k>=4;k--){ h.push('<img src="'+S.asset('media/cards/k'+(k<10?'0':'')+k+'.jpg')+'" alt="" loading="lazy">'); } ig.innerHTML = h.join(''); }
+});
+</script>

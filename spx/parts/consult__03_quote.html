@@ -1,0 +1,68 @@
+<!-- 숏플래너스 · consult / quote · 견적 계산기
+     아임웹 코드 위젯에 이 파일 내용을 그대로 붙여 넣으세요. (00_common 위젯이 이 페이지 맨 위에 있어야 합니다) -->
+<div class="spx" data-spx-page="consult">
+<section class="cs-im-block"><div class="wrap"><div class="cs-form cs-im-card">
+<h3 class="cs-step"><i>2</i>관심 서비스 · 예상 견적</h3>
+<div class="qc" id="qc">
+            <div class="qc-f"><span class="c2-lab">숏폼 서비스</span><div class="opts" id="qPlan"></div></div>
+            <div class="qc-f" id="qCountWrap"><span class="c2-lab">편수</span><div class="opts" id="qCount"></div></div>
+            <div class="qc-f" id="qSingleWrap" hidden><span class="c2-lab">단건 편수</span><div class="stepper"><button type="button" id="qsMinus" aria-label="편수 줄이기">−</button><output id="qsOut">1편</output><button type="button" id="qsPlus" aria-label="편수 늘리기">+</button></div></div>
+            <div class="qc-row">
+              <label class="tgl"><input type="checkbox" id="qCard"><span></span><b>AI 카드뉴스 월 12건</b></label>
+              <div class="qc-f"><span class="c2-lab">출장 촬영</span><div class="stepper"><button type="button" id="qdMinus" aria-label="촬영일 줄이기">−</button><output id="qdOut">0일</output><button type="button" id="qdPlus" aria-label="촬영일 늘리기">+</button></div></div>
+            </div>
+            <div class="qc-sum" id="qSum"></div>
+          </div>
+</div></div></section>
+</div>
+<script>
+SPX.def('consult:csQuote', function(S){
+  /* 예상 견적 계산기 (가격 페이지 계산기와 같은 계산: S.quote) */
+  if(!document.getElementById('qPlan')) return;
+  var cs = S.cs = S.cs || {};
+  var q = cs.q = {plan:'none', tier:1, single:1, card:false, days:0};
+  var QSVC = [['allin','숏폼 올인원'],['edit','숏폼 편집'],['single','편집 단건'],['none','선택 안 함']];
+  function $(id){ return document.getElementById(id); }
+  cs.quoteText = function(){ var r = S.quote(q); return r.names.length ? r.names.join(' + ')+' · 합계 '+S.won(r.total)+'(VAT 별도)' : ''; };
+  /* 관심 서비스 체크 상태(아임웹 입력폼 '관심 서비스' 칸과 맞추는 값) */
+  cs.services = function(){ var a=[]; if(q.plan==='allin') a.push('숏폼 올인원'); if(q.plan==='edit'||q.plan==='single') a.push('숏폼 편집'); if(q.card) a.push('AI 카드뉴스'); if(q.days>0) a.push('1일 출장 촬영'); return a; };
+  /* 폼의 관심 서비스 체크박스가 바뀌었을 때 계산기에 반영 */
+  cs.fromService = function(name, on){
+    if(name==='숏폼 올인원'){ q.plan = on ? 'allin' : (q.plan==='allin' ? 'none' : q.plan); if(on) q.tier = 1; }
+    if(name==='숏폼 편집'){ if(on){ if(q.plan!=='single'){ q.plan = 'edit'; q.tier = 1; } } else if(q.plan==='edit' || q.plan==='single') q.plan = 'none'; }
+    if(name==='AI 카드뉴스') q.card = on;
+    if(name==='1일 출장 촬영') q.days = on ? Math.max(1,q.days) : 0;
+    render(true);
+  };
+  function render(fromForm){
+    $('qPlan').innerHTML = QSVC.map(function(x){ return '<button type="button" data-p="'+x[0]+'" aria-pressed="'+(q.plan===x[0])+'">'+x[1]+'</button>'; }).join('');
+    var hasTier = q.plan==='allin' || q.plan==='edit';
+    $('qCountWrap').hidden = !hasTier;
+    $('qSingleWrap').hidden = q.plan!=='single';
+    if(hasTier) $('qCount').innerHTML = S.PLANS[q.plan].tiers.map(function(x,i){ return '<button type="button" data-t="'+i+'" aria-pressed="'+(q.tier===i)+'">'+x.n+'편</button>'; }).join('');
+    $('qsOut').textContent = q.single+'편';
+    $('qdOut').textContent = q.days+'일';
+    $('qCard').checked = q.card;
+    var r = S.quote(q);
+    $('qSum').innerHTML = r.names.length
+      ? '<div class="qs-l">'+r.lines.map(function(l){ return '<div class="'+l[0]+'"><span>'+l[1]+'</span><b>'+l[2]+'</b></div>'; }).join('')+'</div>'
+        + '<div class="qs-t"><div><small>할인 전 '+S.won(r.list)+(r.list>r.total?' · 절약 '+S.won(r.list-r.total):'')+'</small><span>선택 견적 합계 (VAT 별도)</span></div><strong>'+S.won(r.total)+'</strong></div>'
+        + '<p class="qs-txt">선택 견적: '+cs.quoteText()+'</p>'
+      : '<p class="qs-empty">서비스를 선택하면 예상 견적이 표시됩니다.</p>';
+    if(cs.push) cs.push(fromForm);
+  }
+  $('qPlan').addEventListener('click', function(e){ var b = e.target.closest('button[data-p]'); if(!b) return; q.plan = b.dataset.p; q.tier = 1; render(); });
+  $('qCount').addEventListener('click', function(e){ var b = e.target.closest('button[data-t]'); if(!b) return; q.tier = +b.dataset.t; render(); });
+  $('qsMinus').onclick = function(){ q.single = Math.max(1,q.single-1); render(); };
+  $('qsPlus').onclick = function(){ q.single = Math.min(11,q.single+1); render(); };
+  $('qdMinus').onclick = function(){ q.days = Math.max(0,q.days-1); render(); };
+  $('qdPlus').onclick = function(){ q.days = Math.min(8,q.days+1); render(); };
+  $('qCard').onchange = function(e){ q.card = e.target.checked; render(); };
+  /* 가격 페이지 계산기에서 '이 구성으로 상담 신청'으로 넘어온 값 */
+  try{
+    var s = JSON.parse(sessionStorage.getItem('spx-quote')||'null');
+    if(s){ q.plan = s.plan||'none'; q.tier = s.tier!=null ? s.tier : 1; q.single = s.single||1; q.card = !!s.card; q.days = s.days||0; sessionStorage.removeItem('spx-quote'); }
+  }catch(e){}
+  render();
+});
+</script>

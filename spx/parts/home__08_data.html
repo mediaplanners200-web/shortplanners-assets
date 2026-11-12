@@ -1,0 +1,35 @@
+<!-- 숏플래너스 · home / data
+     아임웹 코드 위젯에 이 파일 내용을 그대로 붙여 넣으세요. (00_common 위젯이 이 페이지 맨 위에 있어야 합니다) · 혼합: 아임웹 2단 섹션의 오른쪽 칸에 넣는 코드 -->
+<div class="spx spx-clear" data-spx-page="home"><div class="hy-part"><div class="data hy-solo"><div class="radar" id="radar">
+        <div class="rd-win">
+          <div class="rd-top"><i></i><i></i><i></i><span class="rd-url">숏플래너스 인스타 레이더 · 고객 리포트</span></div>
+          <div class="rd-shot">
+            <img data-spx-src="media/radar/home.jpg" alt="인스타 레이더 요약 화면: 그룹별 비교와 빠르게 크는 계정" data-k="home">
+            <img data-spx-src="media/radar/reels.jpg" alt="인스타 레이더 릴스 화면: 평소 대비 크게 터진 릴스" data-k="reels" loading="lazy">
+            <img data-spx-src="media/radar/topic.jpg" alt="인스타 레이더 주제 분석 화면" data-k="topic" loading="lazy">
+            <img data-spx-src="media/radar/style.jpg" alt="인스타 레이더 연출 레퍼런스 화면" data-k="style" loading="lazy">
+            <img data-spx-src="media/radar/studio.jpg" alt="인스타 레이더 대본 스튜디오 화면" data-k="studio" loading="lazy">
+          </div>
+        </div>
+        <div class="rd-tabs" role="tablist" aria-label="리포트 기능">
+          <button type="button" role="tab" data-k="home"><b>요약</b><span>184개 계정을 그룹별로 비교하고, 빠르게 크는 계정을 찾습니다.</span></button>
+          <button type="button" role="tab" data-k="reels"><b>터진 릴스</b><span>계정 평소 조회수 대비 몇 배 터졌는지로 릴스 3,895편을 줄 세웁니다.</span></button>
+          <button type="button" role="tab" data-k="topic"><b>주제 분석</b><span>어떤 주제가 평소보다 2배 이상 터질 확률이 높은지 보여 줍니다.</span></button>
+          <button type="button" role="tab" data-k="style"><b>연출 레퍼런스</b><span>같은 방식으로 성과가 난 계정의 연출을 모아 봅니다.</span></button>
+          <button type="button" role="tab" data-k="studio"><b>대본 스튜디오</b><span>잘 되는 유형별 구성·후킹·캡션 패턴을 정리해 대본으로 옮깁니다.</span></button>
+        </div>
+        <span class="rd-ex">실제 고객 리포트 화면 · 계정 정보는 가림 처리</span>
+      </div></div></div></div>
+<script>
+SPX.def('home:radar', function(S){
+  var box = document.getElementById('radar'); if(!box) return;
+  var tabs = [].slice.call(box.querySelectorAll('.rd-tabs button')), imgs = [].slice.call(box.querySelectorAll('.rd-shot img'));
+  var keys = tabs.map(function(b){ return b.dataset.k; }), cur = 0, timer;
+  function show(i){ cur = i; tabs.forEach(function(b,j){ b.setAttribute('aria-selected', j===i); }); imgs.forEach(function(im){ im.classList.toggle('on', im.dataset.k===keys[i]); }); }
+  function auto(){ clearInterval(timer); if(!S.reduce) timer = setInterval(function(){ show((cur+1)%keys.length); }, 4200); }
+  tabs.forEach(function(b,i){ b.addEventListener('click', function(){ show(i); auto(); }); });
+  box.addEventListener('pointerenter', function(){ clearInterval(timer); });
+  box.addEventListener('pointerleave', auto);
+  show(0); auto();
+});
+</script>

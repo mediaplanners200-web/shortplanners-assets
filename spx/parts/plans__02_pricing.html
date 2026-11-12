@@ -1,0 +1,141 @@
+<!-- 숏플래너스 · plans / pricing
+     아임웹 코드 위젯에 이 파일 내용을 그대로 붙여 넣으세요. (00_common 위젯이 이 페이지 맨 위에 있어야 합니다) · 혼합: 제목은 아임웹 타이틀 위젯, 이 코드는 그 아래 -->
+<div class="spx" data-spx-page="plans">
+<section class="sec hy-nohead" style="padding-top:72px">
+    <div class="wrap">
+      <div class="pl-top">
+        
+        <div class="seg seg3" role="group" aria-label="서비스 종류">
+          <button type="button" data-plan="allin" aria-pressed="true">숏폼 올인원</button>
+          <button type="button" data-plan="edit" aria-pressed="false">숏폼 편집</button>
+          <button type="button" data-plan="card" aria-pressed="false">AI 카드뉴스</button>
+        </div>
+      </div>
+      <div class="price-grid" id="planPrice"></div>
+      <div id="planCard" hidden>
+        <div class="cn-plan">
+          <div class="cn-l">
+            <span class="cn-badge">월 정기 제작</span>
+            <h3>AI 카드뉴스</h3>
+            <p class="cn-price"><b class="num">79만원</b><span>/ 월 12건 · VAT 별도</span></p>
+            <a class="btn btn-blue" href="/consult" data-spx-route="consult">이 플랜으로 상담 <span class="arr">→</span></a>
+          </div>
+          <ul class="cn-list">
+            <li>매월 카드뉴스 12건 제작</li>
+            <li>프로필 고정 게시물 3개 포함</li>
+            <li>한 편당 3~10장 구성</li>
+            <li>전환용 · 트래픽용 · 소식·이벤트 3가지 유형</li>
+            <li>퍼널 설계 · 주제 기획 · 카피라이팅 · 디자인</li>
+            <li>업로드 전 미리보기 · 수정 요청</li>
+            <li>업로드용 캡션 제공</li>
+          </ul>
+        </div>
+      </div>
+      <p class="pl-single">숏폼 편집은 단건으로도 진행할 수 있습니다 · <b>편당 15만원</b> (VAT 별도)</p>
+
+      <!-- 계산기 -->
+      <div class="calc2" id="calc">
+        <div class="c2-in">
+          <p class="eyebrow">Calculator</p>
+          <h2 class="c2-title">견적 계산기</h2>
+          <p class="c2-sub">필요한 서비스를 함께 선택하면 합계가 바로 계산됩니다.</p>
+          <div class="c2-f"><span class="c2-lab">숏폼 서비스</span><div class="opts" id="cPlan"></div></div>
+          <div class="c2-f" id="cCountWrap"><span class="c2-lab">편수</span><div class="opts" id="cCount"></div></div>
+          <div class="c2-f" id="cSingleWrap" hidden><span class="c2-lab">단건 편수</span>
+            <div class="stepper"><button type="button" id="sMinus" aria-label="편수 줄이기">−</button><output id="sOut">1편</output><button type="button" id="sPlus" aria-label="편수 늘리기">+</button></div>
+            <p class="hint">편당 15만원 (VAT 별도)</p>
+          </div>
+          <div class="c2-f"><span class="c2-lab">AI 카드뉴스</span>
+            <label class="tgl"><input type="checkbox" id="cCard"><span></span><b>월 12건 추가</b><small>79만원 · 고정 게시물 3개 포함</small></label>
+          </div>
+          <div class="c2-f"><span class="c2-lab">1일 출장 촬영</span>
+            <div class="stepper"><button type="button" id="dMinus" aria-label="촬영일 줄이기">−</button><output id="dOut">0일</output><button type="button" id="dPlus" aria-label="촬영일 늘리기">+</button></div>
+            <p class="hint">직접 촬영하시면 0일로 두세요. 1일 60만원 (VAT 별도).</p>
+          </div>
+        </div>
+        <div class="c2-out" aria-live="polite">
+          <div class="c2-lines" id="cLines"></div>
+          <div class="c2-sum">
+            <div class="row"><span>할인 전 금액</span><b id="rList"></b></div>
+            <div class="row disc"><span>절약 금액</span><b id="rSave"></b></div>
+          </div>
+          <div class="total"><span>예상 합계 (VAT 별도)</span><strong id="rTotal"></strong><em id="rNote"></em></div>
+          <a class="btn btn-blue" href="/consult" data-spx-route="consult" id="calcToConsult" style="justify-content:center">이 구성으로 상담 신청 <span class="arr">→</span></a>
+        </div>
+      </div>
+
+      <!-- 비교 매트릭스 -->
+      <h2 class="h2" style="margin-top:96px">서비스별 포함 항목</h2>
+      <div class="mx-wrap">
+        <table class="mx">
+          <thead><tr><th>항목</th><th>숏폼 올인원</th><th>숏폼 편집</th><th>AI 카드뉴스</th></tr></thead>
+          <tbody>
+            <tr><td>계정 심층 분석</td><td class="y">✓</td><td class="n">—</td><td class="n">—</td></tr>
+            <tr><td>전략적 계정 기획안</td><td class="y">✓</td><td class="n">—</td><td class="n">—</td></tr>
+            <tr><td>프로필 세팅 제안 · 하이라이트 커버</td><td class="y">✓</td><td class="n">—</td><td class="n">—</td></tr>
+            <tr><td>콘텐츠 주제 기획</td><td class="y">✓</td><td class="n">—</td><td class="y">✓</td></tr>
+            <tr><td>대본 · 촬영 디렉션</td><td class="y">✓</td><td class="n">—</td><td class="n">—</td></tr>
+            <tr><td>숏폼 편집</td><td class="y">✓</td><td class="y">✓</td><td class="n">—</td></tr>
+            <tr><td>업로드용 캡션</td><td class="y">✓</td><td class="n">—</td><td class="y">✓</td></tr>
+            <tr><td>퍼널 설계 · 카드뉴스 제작</td><td class="n">—</td><td class="n">—</td><td class="y">✓</td></tr>
+            <tr><td>1일 출장 촬영</td><td class="o">선택</td><td class="o">선택</td><td class="n">—</td></tr>
+            <tr class="pr"><td>가격 (VAT 별도)</td><td>12편 300만원부터</td><td>12편 120만원부터<br><small>단건 편당 15만원</small></td><td>월 12건 79만원</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </section>
+</div>
+<script>
+SPX.def('plans:plansMain', function(S){
+  var PLANS = S.PLANS, won = S.won, man = S.man;
+  /* 서비스 탭 */
+  var planPrice = document.getElementById('planPrice'), planCard = document.getElementById('planCard');
+  function renderPlanCards(p){
+    if(p==='card'){ planPrice.hidden = true; planCard.hidden = false; }
+    else { planCard.hidden = true; planPrice.hidden = false; planPrice.innerHTML = S.priceCards(p); }
+    document.querySelectorAll('.spx .seg3 button').forEach(function(x){ x.setAttribute('aria-pressed', x.dataset.plan===p); });
+  }
+  if(planPrice && planCard){
+    document.querySelectorAll('.spx .seg3 button').forEach(function(b){ b.addEventListener('click', function(){ renderPlanCards(b.dataset.plan); }); });
+    renderPlanCards('allin');
+  }
+  /* 견적 계산기 (여러 서비스 조합) */
+  if(!document.getElementById('cPlan')) return;
+  var calc = {plan:'allin', tier:1, single:1, card:false, days:0};
+  var SVC = [['allin','숏폼 올인원','분석·기획·편집·캡션'],['edit','숏폼 편집','12/24/36편'],['single','편집 단건','편당 15만원'],['none','선택 안 함','카드뉴스만']];
+  function $(id){ return document.getElementById(id); }
+  function renderCalc(){
+    $('cPlan').innerHTML = SVC.map(function(x){ return '<button type="button" data-p="'+x[0]+'" aria-pressed="'+(calc.plan===x[0])+'">'+x[1]+'<small>'+x[2]+'</small></button>'; }).join('');
+    var hasTier = calc.plan==='allin' || calc.plan==='edit';
+    $('cCountWrap').hidden = !hasTier;
+    $('cSingleWrap').hidden = calc.plan!=='single';
+    if(hasTier) $('cCount').innerHTML = PLANS[calc.plan].tiers.map(function(x,i){ return '<button type="button" data-t="'+i+'" aria-pressed="'+(calc.tier===i)+'">'+x.n+'편<small>편당 '+man(Math.round(x.price/x.n))+'</small></button>'; }).join('');
+    $('sOut').textContent = calc.single+'편';
+    $('dOut').textContent = calc.days+'일';
+    $('cCard').checked = calc.card;
+    var r = S.quote(calc), lines = r.lines.slice();
+    if(!lines.length) lines.push(['empty', '서비스를 선택해 주세요', '—']);
+    $('cLines').innerHTML = lines.map(function(l){ return '<div class="row '+l[0]+'"><span>'+l[1]+'</span><b>'+l[2]+'</b></div>'; }).join('');
+    $('rList').textContent = won(r.list);
+    $('rSave').textContent = r.list>r.total ? '−'+won(r.list-r.total) : '—';
+    $('rTotal').textContent = won(r.total);
+    var note = [];
+    if(hasTier) note.push('편당 약 '+won(Math.round(PLANS[calc.plan].tiers[calc.tier].price/PLANS[calc.plan].tiers[calc.tier].n)));
+    if(calc.card) note.push('AI 카드뉴스는 월 기준');
+    $('rNote').textContent = note.join(' · ');
+    document.querySelectorAll('#cPlan button').forEach(function(b){ b.onclick=function(){ calc.plan=b.dataset.p; calc.tier=1; renderCalc(); }; });
+    document.querySelectorAll('#cCount button').forEach(function(b){ b.onclick=function(){ calc.tier=+b.dataset.t; renderCalc(); }; });
+  }
+  $('cCard').onchange=function(e){ calc.card=e.target.checked; renderCalc(); };
+  $('sMinus').onclick=function(){ calc.single=Math.max(1,calc.single-1); renderCalc(); };
+  $('sPlus').onclick=function(){ calc.single=Math.min(11,calc.single+1); renderCalc(); };
+  $('dMinus').onclick=function(){ calc.days=Math.max(0,calc.days-1); renderCalc(); };
+  $('dPlus').onclick=function(){ calc.days=Math.min(8,calc.days+1); renderCalc(); };
+  renderCalc();
+  /* '이 구성으로 상담 신청' → 상담 신청 페이지로 선택값 넘기기 (sessionStorage) */
+  var toC = $('calcToConsult');
+  if(toC) toC.addEventListener('click', function(){ try{ sessionStorage.setItem('spx-quote', JSON.stringify(calc)); }catch(e){} });
+});
+</script>

@@ -1,0 +1,73 @@
+<!-- 숏플래너스 · consult / form_bridge · 아임웹 입력폼 바로 아래에 놓는 코드 위젯
+     달력 · 견적 계산기에서 고른 값을 입력폼의 "희망 상담 일정 / 관심 서비스 / 선택 견적" 칸에 자동으로 넣습니다. -->
+<div class="spx" data-spx-page="consult" hidden></div>
+<script>
+SPX.def('consult:csBridge', function(S){
+  /* 아임웹 입력폼 연동: 달력 · 계산기 값을 입력폼 칸에 자동 입력합니다.
+     아임웹 폼의 HTML 구조를 알 수 없으므로 '칸 제목(라벨) 글자'로 칸을 찾습니다. 못 찾으면 아무것도 하지 않습니다.
+     라벨 글자를 바꾸면 아래 LABELS 도 같이 바꿔 주세요. */
+  var cs = S.cs = S.cs || {};
+  var LABELS = {
+    schedule: ['희망 상담 일정', '희망 일정'],
+    services: ['관심 서비스'],
+    quote:    ['선택 견적', '예상 견적']
+  };
+  var SERVICE_NAMES = ['숏폼 올인원', '숏폼 편집', 'AI 카드뉴스', '1일 출장 촬영'];
+  function norm(t){ return String(t||'').replace(/[\s*·:()（）]/g,'').toLowerCase(); }
+  /* 라벨 글자로 그 칸을 감싼 덩어리(필드 컨테이너)를 찾음 — 우리 위젯(.spx) 안은 제외 */
+  function findBox(keys){
+    var cand = document.querySelectorAll('label, legend, dt, th, h1, h2, h3, h4, h5, h6, p, span, div, strong, b');
+    for(var i=0;i<cand.length;i++){
+      var el = cand[i]; if(el.closest('.spx')) continue;
+      if(el.children.length > 3) continue;
+      var t = norm(el.textContent); if(!t || t.length > 40) continue;
+      for(var k=0;k<keys.length;k++){
+        if(t.indexOf(norm(keys[k]))===0){
+          if(el.tagName==='LABEL' && el.htmlFor){ var f = document.getElementById(el.htmlFor); if(f) return {box:f.parentElement, field:f}; }
+          var box = el;
+          for(var up=0; up<5 && box; up++){
+            var inp = box.querySelector('input:not([type=hidden]):not([type=checkbox]):not([type=radio]), textarea, select, input[type=checkbox], input[type=radio]');
+            if(inp && !inp.closest('.spx')) return {box:box, field:inp};
+            box = box.parentElement;
+          }
+        }
+      }
+    }
+    return null;
+  }
+  function setVal(el, v){
+    if(!el || el.value === v) return;
+    var proto = el.tagName==='TEXTAREA' ? HTMLTextAreaElement.prototype : (el.tagName==='SELECT' ? HTMLSelectElement.prototype : HTMLInputElement.prototype);
+    var d = Object.getOwnPropertyDescriptor(proto, 'value');
+    if(d && d.set) d.set.call(el, v); else el.value = v;
+    el.dispatchEvent(new Event('input', {bubbles:true}));
+    el.dispatchEvent(new Event('change', {bubbles:true}));
+  }
+  function svcInputs(found){
+    if(!found) return [];
+    return [].slice.call(found.box.querySelectorAll('input[type=checkbox], input[type=radio]')).map(function(inp){
+      var lab = inp.closest('label') || (inp.id && document.querySelector('label[for="'+inp.id+'"]')) || inp.parentElement;
+      var t = norm(lab ? lab.textContent : inp.value), name = null;
+      SERVICE_NAMES.forEach(function(n){ if(t.indexOf(norm(n))>=0 || norm(inp.value).indexOf(norm(n))>=0) name = n; });
+      return name ? {inp:inp, name:name} : null;
+    }).filter(Boolean);
+  }
+  var bound = false;
+  cs.push = function(fromForm){
+    try{
+      var f1 = findBox(LABELS.schedule);
+      if(f1 && f1.field && f1.field.type!=='checkbox') setVal(f1.field, (cs.schedText && cs.schedText()) || '');
+      var f3 = findBox(LABELS.quote);
+      if(f3 && f3.field && f3.field.type!=='checkbox') setVal(f3.field, (cs.quoteText && cs.quoteText()) || '');
+      var f2 = findBox(LABELS.services), list = svcInputs(f2), want = cs.services ? cs.services() : [];
+      if(!fromForm) list.forEach(function(o){ var on = want.indexOf(o.name)>=0; if(o.inp.checked !== on) o.inp.click(); });
+      if(!bound && list.length){
+        bound = true;
+        list.forEach(function(o){ o.inp.addEventListener('change', function(){ if(cs.fromService) cs.fromService(o.name, o.inp.checked); }); });
+      }
+    }catch(e){}
+  };
+  /* 아임웹 폼이 늦게 그려질 수 있어 몇 번 더 시도 */
+  [0, 600, 1500, 3000].forEach(function(t){ setTimeout(function(){ cs.push(); }, t); });
+});
+</script>

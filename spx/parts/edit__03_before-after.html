@@ -1,0 +1,64 @@
+<!-- 숏플래너스 · edit / before-after
+     아임웹 코드 위젯에 이 파일 내용을 그대로 붙여 넣으세요. (00_common 위젯이 이 페이지 맨 위에 있어야 합니다) · 혼합: 제목은 아임웹 타이틀 위젯, 이 코드는 그 아래 -->
+<div class="spx" data-spx-page="edit">
+<!-- 2) BEFORE / AFTER -->
+  <section class="sec night ba-sec hy-nohead">
+    <div class="wrap">
+      
+      
+      
+      <div class="ba2">
+        <div class="ba2-side left">
+          <span class="ba-tag before">촬영 원본</span>
+          <p class="ba2-sub">편집 요소를 뺀 재구성 이미지</p>
+          <ul class="ba-notes raw"><li>타이틀·자막 없음</li><li>색보정 전 화면</li><li>컷 편집 전 단일 클립</li></ul>
+        </div>
+        <div class="ba2-cmp" id="ba" style="--p:50%">
+          <video class="ba2-after" id="baVid" data-spx-src="media/edit_after.mp4" data-spx-poster="media/edit_after.jpg" muted loop playsinline preload="metadata" aria-label="오방난로 개발이유 실제 편집본 일부, 얼굴은 가림 처리"></video>
+          <img class="ba2-before" data-spx-src="media/edit_before.jpg" alt="같은 장면에서 타이틀을 뺀 원본 재구성 이미지">
+          <span class="ba2-l">원본</span><span class="ba2-r">완성본</span>
+          <div class="ba-handle" aria-hidden="true"><b>‹ ›</b></div>
+          <input class="ba-range" type="range" min="0" max="100" value="50" aria-label="원본과 완성본 비교 위치">
+        </div>
+        <div class="ba2-side right">
+          <span class="ba-tag after">편집 완성본</span>
+          <p class="ba2-sub">실제 편집본 · 얼굴은 가림 처리</p>
+          <ul class="ba-notes"><li>상단 고정 타이틀 “오방난로 개발이유”</li><li>대사 자막 · 키워드 색 강조</li><li>제품 컷 인서트</li><li>실사용 장면 B컷</li></ul>
+        </div>
+      </div>
+      <div class="ba-tlw" id="baTl" style="--p:50%">
+        <div class="tl-ed">
+          <div class="tl-h"><b>편집 타임라인</b><span>오방난로_개발이유_편집본</span></div>
+          <div class="tl-r"><label>TTL</label><div class="tl-ttl">오방난로 개발이유 (feat. 혁신적인)</div></div>
+          <div class="tl-r"><label>V1</label><div class="tl-film"><img data-spx-src="media/svc/o1.jpg" alt=""><img data-spx-src="media/svc/o2.jpg" alt=""><img data-spx-src="media/svc/o3.jpg" alt=""><img data-spx-src="media/svc/o4.jpg" alt=""><img data-spx-src="media/svc/o5.jpg" alt=""><img data-spx-src="media/svc/o6.jpg" alt=""><img data-spx-src="media/svc/o7.jpg" alt=""><img data-spx-src="media/svc/o1.jpg" alt=""><img data-spx-src="media/svc/o3.jpg" alt=""><img data-spx-src="media/svc/o5.jpg" alt=""><i class="mk" style="left:10%"></i><i class="mk" style="left:20%"></i><i class="mk" style="left:30%"></i><i class="mk" style="left:40%"></i><i class="mk" style="left:50%"></i><i class="mk" style="left:60%"></i><i class="mk" style="left:70%"></i><i class="mk" style="left:80%"></i><i class="mk" style="left:90%"></i></div></div>
+          <div class="tl-r"><label>T1</label><div class="tl-subs"><span style="width:15%">오방난로 라는게</span><span style="width:20%">있는 걸 사고 썼었어요</span><span style="width:17%">근데 썼었는데</span><span style="width:20%">저가 썼을 때는 좋았는데</span><span style="width:22%">부족한게 너무 많은 느낌인 거예요</span></div></div>
+          <div class="tl-r"><label>A1</label><svg class="tl-wave" viewBox="0 0 800 24" preserveAspectRatio="none"><path d="M0 12 L8 19 L16 7 L24 17 L32 4 L40 20 L48 8 L56 16 L64 6 L72 18 L80 3 L88 21 L96 9 L104 15 L112 5 L120 19 L128 7 L136 17 L144 4 L152 20 L160 8 L168 16 L176 6 L184 18 L192 3 L200 21 L208 9 L216 15 L224 5 L232 19 L240 7 L248 17 L256 4 L264 20 L272 8 L280 16 L288 6 L296 18 L304 3 L312 21 L320 9 L328 15 L336 5 L344 19 L352 7 L360 17 L368 4 L376 20 L384 8 L392 16 L400 6 L408 18 L416 3 L424 21 L432 9 L440 15 L448 5 L456 19 L464 7 L472 17 L480 4 L488 20 L496 8 L504 16 L512 6 L520 18 L528 3 L536 21 L544 9 L552 15 L560 5 L568 19 L576 7 L584 17 L592 4 L600 20 L608 8 L616 16 L624 6 L632 18 L640 3 L648 21 L656 9 L664 15 L672 5 L680 19 L688 7 L696 17 L704 4 L712 20 L720 8 L728 16 L736 6 L744 18 L752 3 L760 21 L768 9 L776 15 L784 5 L792 19 L800 7" fill="none" stroke="#3EE0A8" stroke-width="1.4"/></svg></div>
+          <div class="tl-r"><label>A2</label><div class="tl-bgm">BGM</div></div>
+          <i class="tl-head"></i>
+        </div>
+        <div class="tl-raw" aria-hidden="true">
+          <div class="tl-h"><b>원본 타임라인</b><span>촬영원본_01.mp4</span></div>
+          <div class="tl-r"><label>TTL</label><div class="tl-none"></div></div>
+          <div class="tl-r"><label>V1</label><div class="tl-long">단일 클립 · 컷 없음</div></div>
+          <div class="tl-r"><label>T1</label><div class="tl-none">자막 없음</div></div>
+          <div class="tl-r"><label>A1</label><svg class="tl-wave" viewBox="0 0 800 24" preserveAspectRatio="none"><path d="M0 12 L120 12 L124 9 L128 15 L132 12 L360 12 L364 10 L368 14 L372 12 L620 12 L624 9 L628 15 L632 12 L800 12" fill="none" stroke="#5E6880" stroke-width="1.4"/></svg></div>
+          <div class="tl-r"><label>A2</label><div class="tl-none">—</div></div>
+        </div>
+        <i class="tl-split"></i>
+      </div>
+      <p class="ba-cap">자막·타임라인 표시는 편집 과정을 설명하기 위한 연출입니다.</p>
+    </div>
+  </section>
+</div>
+<script>
+SPX.def('edit:ba', function(S){
+  var ba = document.getElementById('ba'); if(!ba) return;
+  var r = ba.querySelector('.ba-range'), tl = document.getElementById('baTl');
+  r.addEventListener('input', function(){ ba.style.setProperty('--p', r.value+'%'); if(tl) tl.style.setProperty('--p', r.value+'%'); });
+  var bv = document.getElementById('baVid'), head = tl && tl.querySelector('.tl-head');
+  if(bv){
+    S.onView(bv, function(on){ if(on && !S.reduce) S.play(bv); else bv.pause(); }, {threshold:.2});
+    bv.addEventListener('timeupdate', function(){ if(head && bv.duration) head.style.left = 'calc(56px + (100% - 76px) * ' + (bv.currentTime/bv.duration).toFixed(4) + ')'; });
+  }
+});
+</script>

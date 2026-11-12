@@ -1,0 +1,44 @@
+<!-- 숏플래너스 · carousel / how-its-made
+     아임웹 코드 위젯에 이 파일 내용을 그대로 붙여 넣으세요. (00_common 위젯이 이 페이지 맨 위에 있어야 합니다) · 혼합: 제목은 아임웹 타이틀 위젯, 이 코드는 그 아래 -->
+<div class="spx" data-spx-page="carousel">
+<!-- 4) AI 제작 과정 + 실제 자동화 프로그램 화면 -->
+  <section class="sec night hy-nohead">
+    <div class="wrap">
+      
+      
+      
+      <div class="auto" id="auto">
+        <div class="auto-steps" role="tablist">
+          <button type="button" data-k="post"><i>01</i><div><b>재료 수집</b><span>업계 소식·영상·레퍼런스에서 다룰 자료를 모읍니다.</span></div></button>
+          <button type="button" data-k="post"><i>02</i><div><b>퍼널·구성 설계</b><span>표지·본문·마지막 장의 역할을 정하고 장 수를 구성합니다.</span></div></button>
+          <button type="button" data-k="post"><i>03</i><div><b>카피 작성</b><span>표지 제목, 장별 문장, 업로드용 캡션을 작성합니다.</span></div></button>
+          <button type="button" data-k="posts"><i>04</i><div><b>디자인</b><span>실제 사진·영상 장면을 우선 사용해 카드를 디자인합니다.</span></div></button>
+          <button type="button" data-k="sched"><i>05</i><div><b>업로드 전 미리보기·수정</b><span>업로드 전에 미리보기로 확인하고, 필요한 부분은 수정 요청하실 수 있습니다.</span></div></button>
+          <button type="button" data-k="cal"><i>06</i><div><b>업로드</b><span>확정된 일정에 맞춰 예약하고 업로드합니다.</span></div></button>
+        </div>
+        <div class="auto-win">
+          <div class="rd-top"><i></i><i></i><i></i><span class="rd-url">숏플래너스 인스타 카드뉴스 자동화 · 운영 화면</span></div>
+          <div class="auto-shot">
+            <img data-spx-src="media/auto/post.jpg" alt="자동화 프로그램: 자료 넣기와 인스타 미리보기 화면" data-k="post">
+            <img data-spx-src="media/auto/posts.jpg" alt="자동화 프로그램: 게시물 목록 화면" data-k="posts" loading="lazy">
+            <img data-spx-src="media/auto/schedule.jpg" alt="자동화 프로그램: 이미지 확인과 예약 화면" data-k="sched" loading="lazy">
+            <img data-spx-src="media/auto/calendar.jpg" alt="자동화 프로그램: 발행 캘린더 화면" data-k="cal" loading="lazy">
+          </div>
+          <p class="auto-cap">실제 운영 화면 · 타사 인물이 보이는 썸네일은 흐림 처리</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+<script>
+SPX.def('carousel:autoTabs', function(S){
+  var box = document.getElementById('auto'); if(!box) return;
+  var btns = [].slice.call(box.querySelectorAll('.auto-steps button')), imgs = [].slice.call(box.querySelectorAll('.auto-shot img')), cur = 0, timer;
+  function show(i){ cur = i; btns.forEach(function(b,j){ b.setAttribute('aria-selected', j===i); }); imgs.forEach(function(im){ im.classList.toggle('on', im.dataset.k===btns[i].dataset.k); }); }
+  function auto(){ clearInterval(timer); if(!S.reduce) timer = setInterval(function(){ show((cur+1)%btns.length); }, 3800); }
+  btns.forEach(function(b,i){ b.addEventListener('click', function(){ show(i); auto(); }); });
+  box.addEventListener('pointerenter', function(){ clearInterval(timer); });
+  box.addEventListener('pointerleave', auto);
+  show(0); auto();
+});
+</script>

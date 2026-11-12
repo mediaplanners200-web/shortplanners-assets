@@ -1,0 +1,50 @@
+<!-- 숏플래너스 · consult / schedule · 달력
+     아임웹 코드 위젯에 이 파일 내용을 그대로 붙여 넣으세요. (00_common 위젯이 이 페이지 맨 위에 있어야 합니다) -->
+<div class="spx" data-spx-page="consult">
+<section class="cs-im-block"><div class="wrap"><div class="cs-form cs-im-card">
+<h3 class="cs-step"><i>1</i>희망 상담 일정 <small>(선택)</small></h3>
+<!-- 실제 예약 가능 여부는 확인하지 않습니다(안내용 달력). 고른 값은 아임웹 입력폼 '희망 상담 일정' 칸에 자동 입력됩니다. -->
+<div class="cal" id="cal">
+            <div class="cal-h"><button type="button" class="cal-nav" id="calPrev" aria-label="이전 달">‹</button><b id="calTitle"></b><button type="button" class="cal-nav" id="calNext" aria-label="다음 달">›</button></div>
+            <div class="cal-w"><span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span></div>
+            <div class="cal-g" id="calGrid" role="grid"></div>
+            <div class="cal-times" id="calTimes" role="group" aria-label="상담 시간"></div>
+            <p class="cal-sel" id="calSel">담당자가 연락드려 일정을 조율합니다.</p>
+          </div>
+</div></div></section>
+</div>
+<script>
+SPX.def('consult:csSchedule', function(S){
+  /* 희망 상담 일정 달력 — 실제 예약 가능 여부는 확인하지 않습니다(평일 · 오늘부터 30일까지만 고를 수 있게 한 안내용 달력). */
+  if(!document.getElementById('calGrid')) return;
+  var cs = S.cs = S.cs || {};
+  var DOW = ['일','월','화','수','목','금','토'], TIMES = ['10:00','11:00','13:00','14:00','15:00','16:00','17:00'];
+  var today = new Date(); today.setHours(0,0,0,0);
+  var maxD = new Date(today); maxD.setDate(maxD.getDate()+30);
+  var view = new Date(today.getFullYear(), today.getMonth(), 1), selD = null, selT = '';
+  function $(id){ return document.getElementById(id); }
+  function fmtD(d){ return (d.getMonth()+1)+'월 '+d.getDate()+'일('+DOW[d.getDay()]+')'; }
+  cs.schedText = function(){ return selD ? fmtD(selD)+(selT?' '+selT:' · 시간 미선택') : ''; };
+  function render(){
+    $('calTitle').textContent = view.getFullYear()+'년 '+(view.getMonth()+1)+'월';
+    var first = new Date(view), days = new Date(view.getFullYear(), view.getMonth()+1, 0).getDate(), h = '';
+    for(var i=0;i<first.getDay();i++) h += '<span></span>';
+    for(var d=1; d<=days; d++){
+      var dt = new Date(view.getFullYear(), view.getMonth(), d), dis = dt<today || dt>maxD || dt.getDay()===0 || dt.getDay()===6;
+      var on = selD && dt.getTime()===selD.getTime();
+      h += '<button type="button" data-d="'+dt.getTime()+'"'+(dis?' disabled':'')+' aria-pressed="'+!!on+'">'+d+'</button>';
+    }
+    $('calGrid').innerHTML = h;
+    $('calPrev').disabled = view <= new Date(today.getFullYear(), today.getMonth(), 1);
+    $('calNext').disabled = new Date(view.getFullYear(), view.getMonth()+1, 1) > maxD;
+    $('calTimes').innerHTML = selD ? TIMES.map(function(x){ return '<button type="button" data-t="'+x+'" aria-pressed="'+(selT===x)+'">'+x+'</button>'; }).join('') : '';
+    $('calSel').innerHTML = selD ? '선택한 일정: <b>'+cs.schedText()+'</b>' : '선택하지 않으시면 담당자가 연락드려 일정을 조율합니다.';
+    if(cs.push) cs.push();
+  }
+  $('calGrid').addEventListener('click', function(e){ var b = e.target.closest('button[data-d]'); if(!b || b.disabled) return; selD = new Date(+b.dataset.d); selT = ''; render(); });
+  $('calTimes').addEventListener('click', function(e){ var b = e.target.closest('button[data-t]'); if(!b) return; selT = b.dataset.t; render(); });
+  $('calPrev').onclick = function(){ view = new Date(view.getFullYear(), view.getMonth()-1, 1); render(); };
+  $('calNext').onclick = function(){ view = new Date(view.getFullYear(), view.getMonth()+1, 1); render(); };
+  render();
+});
+</script>

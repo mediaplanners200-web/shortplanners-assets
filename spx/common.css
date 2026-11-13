@@ -270,7 +270,7 @@ body:has(.spx[data-spx-page="consult"]) ._form-widget ._input_form_submit:hover{
    - 아임웹이 첫 섹션 위에 깔아 두는 단색 띠 대신, 첫 화면(히어로) 배경이 상단 뒤까지 올라가도록
    - 첫 섹션 배경색(겹치기 조건)이 아래 다른 블록에 비치지 않도록 나머지 줄은 흰 배경 */
 @media (min-width:992px){
-  body.new_header_overlay .section_wrap._section_first{padding-top:0!important}
+  html body.doz_sys.new_header_overlay .section_wrap.section_first._section_first.pc_section{padding-top:0!important}
   body.new_header_overlay .section_wrap._section_first .inside>.doz_row{background:#fff}
   body.new_header_overlay .section_wrap._section_first .inside>.doz_row:first-child{background:transparent}
   body.new_header_overlay .section_wrap._section_first .inside>.doz_row:first-child .spx>section:first-child{padding-top:89px}
@@ -278,4 +278,8 @@ body:has(.spx[data-spx-page="consult"]) ._form-widget ._input_form_submit:hover{
 /* 모바일·태블릿(991px 이하)은 아임웹이 겹치기를 쓰지 않음 → 첫 섹션 배경색이 비치지 않도록 */
 @media (max-width:991px){
   body.new_header_overlay .section_wrap._section_first .inside>.doz_row{background:#fff}
-}
+}/* spx-overlay-fix2 : 첫 섹션에 배경색을 넣으면 아임웹이 그 섹션 안의 .btn 배경을 같은 색으로 덮음 → 원래 버튼 색 유지 */
+.spx a.btn.btn-blue,.spx button.btn.btn-blue{background:var(--blue)!important;background-color:var(--blue)!important;color:#fff!important}
+.spx a.btn.btn-ghost,.spx button.btn.btn-ghost{background:rgba(255,255,255,.08)!important;background-color:rgba(255,255,255,.08)!important}
+.spx a.btn.btn-line,.spx button.btn.btn-line{background:transparent!important;background-color:transparent!important}
+.spx .pc.best a.btn,.spx .pc.best a.btn.btn-line{background:#fff!important;background-color:#fff!important}

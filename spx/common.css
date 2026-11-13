@@ -266,3 +266,16 @@ body:has(.spx[data-spx-page="consult"]) ._form-widget ._input_form_submit:hover{
 /* spx-cal-times : 30분 단위 시간 버튼(19개)을 같은 너비 칸으로 정렬 */
 .spx .cal-times{display:grid!important;grid-template-columns:repeat(auto-fill,minmax(74px,1fr));gap:6px}
 .spx .cal-times button{padding:8px 0;text-align:center}
+/* spx-overlay-header : 아임웹 '겹치기' 상단을 켠 페이지(PC 992px 이상)
+   - 아임웹이 첫 섹션 위에 깔아 두는 단색 띠 대신, 첫 화면(히어로) 배경이 상단 뒤까지 올라가도록
+   - 첫 섹션 배경색(겹치기 조건)이 아래 다른 블록에 비치지 않도록 나머지 줄은 흰 배경 */
+@media (min-width:992px){
+  body.new_header_overlay .section_wrap._section_first{padding-top:0!important}
+  body.new_header_overlay .section_wrap._section_first .inside>.doz_row{background:#fff}
+  body.new_header_overlay .section_wrap._section_first .inside>.doz_row:first-child{background:transparent}
+  body.new_header_overlay .section_wrap._section_first .inside>.doz_row:first-child .spx>section:first-child{padding-top:89px}
+}
+/* 모바일·태블릿(991px 이하)은 아임웹이 겹치기를 쓰지 않음 → 첫 섹션 배경색이 비치지 않도록 */
+@media (max-width:991px){
+  body.new_header_overlay .section_wrap._section_first .inside>.doz_row{background:#fff}
+}

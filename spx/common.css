@@ -39,3 +39,7 @@
 .spx .shoot .opt-price em{font-style:normal;font-size:13px;color:var(--on-night-2)}
 .spx .shoot .opt b{font-size:24px!important;font-family:inherit!important;letter-spacing:-.02em!important}
 .spx .shoot .opt span{display:block}
+/* spx-imweb-btn-guard: 아임웹 사이트 CSS의 .btn.btn-line(초록 !important) 덮어쓰기 */
+.spx .btn.btn-line{background:transparent!important;border:1.5px solid var(--text)!important;color:var(--text)!important;font-family:inherit!important;background-image:none!important}
+.spx .btn.btn-line:hover{background:var(--text)!important;color:var(--bg)!important}
+.spx .pc.best .btn.btn-line,.spx .pc.best .btn{background:#fff!important;color:var(--blue)!important;border-color:#fff!important}

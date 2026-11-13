@@ -40,10 +40,17 @@
 SPX.def('home:heroWall', function(S){
   var wall = document.getElementById('wall'), stage = document.getElementById('stage');
   S.fillWall(wall);
-  if(stage && wall && !S.reduce){
+  /* 첫 화면을 벗어나면 흐르는 애니메이션 정지 */
+  if(stage) S.onView(stage, function(on){ stage.classList.toggle('paused', !on); }, {rootMargin:'80px'});
+  if(stage && wall && !S.reduce && !S.mobile){
+    var raf = 0, lx = 0, ly = 0;
     stage.parentElement.addEventListener('pointermove', function(e){
-      var r = stage.getBoundingClientRect(), x = (e.clientX - r.left)/r.width - .5, y = (e.clientY - r.top)/r.height - .5;
-      wall.style.transform = 'rotateX('+(22 - y*10)+'deg) rotateY('+(-24 + x*14)+'deg) rotateZ(8deg)';
+      if(e.pointerType !== 'mouse') return;
+      lx = e.clientX; ly = e.clientY; if(raf) return;
+      raf = requestAnimationFrame(function(){ raf = 0;
+        var r = stage.getBoundingClientRect(), x = (lx - r.left)/r.width - .5, y = (ly - r.top)/r.height - .5;
+        wall.style.transform = 'rotateX('+(22 - y*10)+'deg) rotateY('+(-24 + x*14)+'deg) rotateZ(8deg)';
+      });
     });
     stage.parentElement.addEventListener('pointerleave', function(){ wall.style.transform=''; });
   }

@@ -213,3 +213,6 @@
 .spx .svc-name{margin-top:16px;font-size:clamp(46px,5.4vw,80px);font-weight:900;letter-spacing:-.05em;line-height:1.02;color:#fff;background:linear-gradient(90deg,#fff 0%,#fff 55%,#7FB0FF 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 .spx .ai-hero .svc-name + h1{margin-top:18px}
 @media (max-width:1100px){.spx .svc-name{font-size:clamp(40px,11vw,64px)}}
+/* spx-center */
+.spx .center{text-align:center}
+.spx .center .lead{margin-inline:auto}

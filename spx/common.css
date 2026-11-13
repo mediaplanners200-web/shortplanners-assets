@@ -216,3 +216,27 @@
 /* spx-center */
 .spx .center{text-align:center}
 .spx .center .lead{margin-inline:auto}
+
+/* spx-consult */
+.spx .cs-sec{padding-top:clamp(64px,8vw,110px);background:linear-gradient(180deg,#F4F7FD,var(--bg) 60%)}
+.spx .cs-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:56px;align-items:start}
+.spx .cs-h1{margin-top:14px;font-size:clamp(30px,3.4vw,48px);font-weight:900;line-height:1.25;letter-spacing:-.04em;word-break:keep-all}
+.spx .cs-steps{list-style:none;margin:36px 0 0;padding:0;display:grid;gap:14px}
+.spx .cs-steps li{display:flex;gap:16px;align-items:flex-start}
+.spx .cs-steps b{flex:none;width:36px;height:36px;border-radius:12px;display:grid;place-items:center;background:var(--blue);color:#fff;font-family:var(--f-num)}
+.spx .cs-steps h3{font-size:17px;font-weight:900}
+.spx .cs-steps p{margin-top:2px;font-size:14.5px;color:var(--muted)}
+.spx .cs-get{margin-top:32px;padding:22px 24px;border-radius:20px;background:var(--card);border:1px solid var(--line)}
+.spx .cs-get h3{font-size:16px;font-weight:900}
+.spx .cs-get ul{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:8px}
+.spx .cs-get li{font-size:15px}
+.spx .cs-get li::before{content:"✓";color:var(--blue);font-weight:900;margin-right:8px}
+@media (max-width:900px){.spx .cs-grid{grid-template-columns:minmax(0,1fr);gap:36px}}
+.spx .cs-h1{font-size:clamp(26px,2.6vw,38px)}
+.spx .cs-grid{align-items:start}
+
+.spx .cs-im-intro{padding-bottom:clamp(32px,4vw,56px)}
+.spx .cs-im-intro .cs-grid{align-items:center}
+.spx .cs-im-intro .lead{margin-top:20px}
+.spx .cs-im-intro .cs-steps{margin-top:0}
+.spx .cs-steps strong.xb{flex:none;width:36px;height:36px;border-radius:12px;display:grid;place-items:center;background:var(--blue);color:#fff;font-family:var(--f-num)}

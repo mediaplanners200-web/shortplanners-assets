@@ -22,7 +22,7 @@ SPX.def('plans:plansHero', function(S){
     ms.forEach(function(m){
       S.onView(m, function(on){
         var v = m.querySelector('video'), d = S.SPV[+m.dataset.n-1]; if(!v || !d) return;
-        if(on && !S.reduce){ if(!v.src) v.src = d.v; var p = S.play(v); if(p&&p.then) p.then(function(){ m.classList.add('playing'); }).catch(function(){}); }
+        if(on && !S.reduce){ if(!v.src) v.src = S.lite(d); var p = S.play(v); if(p&&p.then) p.then(function(){ m.classList.add('playing'); }).catch(function(){}); }
         else v.pause();
       }, {threshold:.25});
     });

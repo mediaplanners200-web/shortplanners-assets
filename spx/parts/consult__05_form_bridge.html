@@ -67,7 +67,15 @@ SPX.def('consult:csBridge', function(S){
       }
     }catch(e){}
   };
-  /* 아임웹 폼이 늦게 그려질 수 있어 몇 번 더 시도 */
-  [0, 600, 1500, 3000].forEach(function(t){ setTimeout(function(){ cs.push(); }, t); });
+  /* 입력폼 위에 단계 제목(3 연락처 · 문의 내용)을 붙임 */
+  (function addHead(n){
+    var fw = document.querySelector('._form-widget');
+    if(!fw){ if(n<10) setTimeout(function(){ addHead(n+1); }, 300); return; }
+    if(fw.querySelector('.spx-formhead')) return;
+    var d = document.createElement('div'); d.className = 'spx spx-formhead';
+    d.innerHTML = '<h3 class="cs-step"><i>3</i>연락처 · 문의 내용</h3>';
+    fw.insertBefore(d, fw.firstChild);
+  })(0);
+  /* 아임웹 폼이 늦게 그려질 수 있어 몇 번 더 시도 */  [0, 600, 1500, 3000].forEach(function(t){ setTimeout(function(){ cs.push(); }, t); });
 });
 </script>

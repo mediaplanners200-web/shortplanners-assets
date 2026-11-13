@@ -1,0 +1,13 @@
+<!-- 숏플래너스 · allin / price (코드) -->
+<div class="spx" data-spx-page="allin">
+<section class="sec" style="background:var(--bg-2)">
+    <div class="wrap">
+      <p class="eyebrow">Price</p>
+      <h2 class="h2" style="margin-top:14px">숏폼 올인원 가격</h2>
+      <div class="price-grid" id="allinPrice"></div>
+    </div>
+  </section>
+</div>
+<script>
+SPX.def('allin:price', function(S){ var el=document.getElementById('allinPrice'); if(el && S.priceCards) el.innerHTML=S.priceCards('allin'); });
+</script>

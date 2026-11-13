@@ -263,3 +263,6 @@ body:has(.spx[data-spx-page="consult"]) ._form-widget ._input_form_submit:hover{
 .spx .ed-track label,.spx .ev-tr label{display:block!important;flex:0 0 22px!important;width:22px!important;min-width:22px!important;max-width:22px!important;margin:0!important;padding:0!important;line-height:1.2!important}
 /* spx-pb : 문장 호흡용 줄바꿈 — 좁은 화면에서는 자연스럽게 이어지도록 숨김 */
 @media (max-width:600px){.spx br.pb{display:none}}
+/* spx-cal-times : 30분 단위 시간 버튼(19개)을 같은 너비 칸으로 정렬 */
+.spx .cal-times{display:grid!important;grid-template-columns:repeat(auto-fill,minmax(74px,1fr));gap:6px}
+.spx .cal-times button{padding:8px 0;text-align:center}

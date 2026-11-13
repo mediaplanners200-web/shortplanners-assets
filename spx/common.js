@@ -45,6 +45,8 @@ var SPX_YOUTUBE_URL = 'https://media-planners.co.kr/';
   var reduce = S.reduce = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
   var SPV = S.SPV = window.SPX_VIDEOS || [];
   S.asset = function(p){ return SPX_ASSET_BASE + p; };
+  /* 화면에 여러 개 도는 영상은 가벼운 10초 반복본(media/lite, 360p · 무음), 크게 보기만 원본 */
+  S.lite = function(d){ return d && d.n ? S.asset('media/lite/'+d.n+'.mp4') : (d && d.v); };
   S.route = function(k, hash){ return (SPX_ROUTES[k] || '/') + (hash || ''); };
   S.won = function(n){ return n.toLocaleString('ko-KR')+'원'; };
   S.man = function(n){ return (n/10000).toLocaleString('ko-KR')+'만원'; };
@@ -89,7 +91,7 @@ var SPX_YOUTUBE_URL = 'https://media-planners.co.kr/';
     var cols = wallEl.querySelectorAll('.col'), buckets = [[],[],[]], n = picked.length, total = Math.max(n, 12);
     for(var i=0;i<total;i++){ buckets[i%3].push(picked[(i + (n%3===0 ? Math.floor(i/n) : 0)) % n]); }
     cols.forEach(function(col,ci){
-      var html = buckets[ci].map(function(d){ return '<div class="phone"><video src="'+d.v+'" poster="'+S.asset('media/pf/'+d.n+'.jpg')+'" muted loop playsinline autoplay preload="none"></video></div>'; }).join('');
+      var html = buckets[ci].map(function(d){ return '<div class="phone"><video src="'+S.lite(d)+'" poster="'+S.asset('media/pf/'+d.n+'.jpg')+'" muted loop playsinline autoplay preload="none"></video></div>'; }).join('');
       col.innerHTML = html + html;
     });
   };
@@ -99,7 +101,7 @@ var SPX_YOUTUBE_URL = 'https://media-planners.co.kr/';
     var list = S.pfShuffled().slice(0,28);
     grid.innerHTML = list.map(function(n){
       var d = SPV[n-1];
-      return '<a class="pf" href="'+S.route('work')+'" aria-label="숏폼 영상">'+S.thumb(n)+'<video muted loop playsinline preload="none" data-src="'+d.v+'"></video></a>';
+      return '<a class="pf" href="'+S.route('work')+'" aria-label="숏폼 영상">'+S.thumb(n)+'<video muted loop playsinline preload="none" data-src="'+S.lite(d)+'"></video></a>';
     }).join('');
     grid.querySelectorAll('.pf').forEach(function(c){
       var v = c.querySelector('video');

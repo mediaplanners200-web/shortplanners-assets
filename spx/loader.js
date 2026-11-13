@@ -36,7 +36,7 @@
   function runScript(old){
     return new Promise(function(resolve){
       var s = document.createElement('script');
-      for(var i = 0; i < old.attributes.length; i++){ var a = old.attributes[i]; s.setAttribute(a.name, a.value); }
+      for(var i = 0; i < old.attributes.length; i++){ var a = old.attributes[i]; if(a.name === 'type' && a.value === 'text/spx') continue; s.setAttribute(a.name, a.value); }
       if(old.src){
         s.onload = function(){ resolve(); };
         s.onerror = function(){ warn('스크립트 불러오기 실패: ' + old.src); resolve(); };
@@ -70,6 +70,11 @@
   }
   function mount(el){
     if(el.__spxDone) return Promise.resolve(); el.__spxDone = true;
+    /* 위젯에 HTML 을 미리 넣어 둔 파트(data-inline): 받지 않고, 잠가 둔 스크립트(type="text/spx")만 순서대로 실행 */
+    if(el.hasAttribute('data-inline')){
+      var pre = [].slice.call(el.querySelectorAll('script[type="text/spx"]'));
+      return pre.reduce(function(p, sc){ return p.then(function(){ return runScript(sc); }); }, Promise.resolve());
+    }
     var name = partName(el);
     if(!/^[\w-]+\/[\w-]+$/.test(name)){ warn('data-part 형식 오류: ' + name); return Promise.resolve(); }
     return get(name).then(function(html){
@@ -80,7 +85,7 @@
   }
   function mountAll(){
     var parts = [].slice.call(document.querySelectorAll('.spx-part[data-part]'));
-    parts.forEach(function(el){ var n = partName(el); if(!el.__spxDone && /^[\w-]+\/[\w-]+$/.test(n)) get(n).catch(function(){}); });
+    parts.forEach(function(el){ var n = partName(el); if(!el.__spxDone && !el.hasAttribute('data-inline') && /^[\w-]+\/[\w-]+$/.test(n)) get(n).catch(function(){}); });
     return parts.reduce(function(p, el){ return p.then(function(){ return mount(el); }); }, Promise.resolve());
   }
 

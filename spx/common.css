@@ -259,3 +259,7 @@ body:has(.spx[data-spx-page="consult"]) ._form-widget ._input_form_submit:hover{
 .spx .ty-img.one img{height:100%!important;width:auto!important;max-width:none!important}
 /* spx-fouc : 페이지 맨 위 텍스트 위젯은 공용 CSS 가 들어오기 전까지 숨김 (style="opacity:0" 을 이 규칙이 덮어씀) */
 .spx[data-spx-fouc]{opacity:1!important;transition:opacity .15s ease}
+/* spx-imweb-label-guard2 : 서비스 소개 편집 화면(ed-track) · 편집 페이지 첫 화면(ev-tr) 줄 이름 */
+.spx .ed-track label,.spx .ev-tr label{display:block!important;flex:0 0 22px!important;width:22px!important;min-width:22px!important;max-width:22px!important;margin:0!important;padding:0!important;line-height:1.2!important}
+/* spx-pb : 문장 호흡용 줄바꿈 — 좁은 화면에서는 자연스럽게 이어지도록 숨김 */
+@media (max-width:600px){.spx br.pb{display:none}}

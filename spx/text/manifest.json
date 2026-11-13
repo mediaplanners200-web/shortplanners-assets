@@ -1,0 +1,212 @@
+{
+ "home_faq": [
+  {
+   "type": "text",
+   "file": "home_faq_10.html",
+   "len": 1865,
+   "ids": [],
+   "empty": []
+  }
+ ],
+ "allin": [
+  {
+   "type": "code",
+   "parts": [
+    "allin/01_hero"
+   ]
+  },
+  {
+   "type": "text",
+   "file": "allin_02.html",
+   "len": 1530,
+   "ids": [],
+   "empty": []
+  },
+  {
+   "type": "text",
+   "file": "allin_03.html",
+   "len": 1427,
+   "ids": [],
+   "empty": []
+  },
+  {
+   "type": "text",
+   "file": "allin_04.html",
+   "len": 679,
+   "ids": [
+    "shootPrice1"
+   ],
+   "empty": []
+  },
+  {
+   "type": "code",
+   "parts": [
+    "allin/05_price",
+    "common/cta"
+   ]
+  }
+ ],
+ "edit": [
+  {
+   "type": "code",
+   "parts": [
+    "edit/01_hero"
+   ]
+  },
+  {
+   "type": "text",
+   "file": "edit_02.html",
+   "len": 1929,
+   "ids": [],
+   "empty": []
+  },
+  {
+   "type": "code",
+   "parts": [
+    "edit/03_before-after"
+   ]
+  },
+  {
+   "type": "text",
+   "file": "edit_04.html",
+   "len": 763,
+   "ids": [],
+   "empty": []
+  },
+  {
+   "type": "text",
+   "file": "edit_05.html",
+   "len": 860,
+   "ids": [],
+   "empty": []
+  },
+  {
+   "type": "text",
+   "file": "edit_06.html",
+   "len": 675,
+   "ids": [],
+   "empty": []
+  },
+  {
+   "type": "text",
+   "file": "edit_07.html",
+   "len": 849,
+   "ids": [],
+   "empty": []
+  },
+  {
+   "type": "code",
+   "parts": [
+    "edit/08_portfolio",
+    "edit/09_plans"
+   ]
+  },
+  {
+   "type": "text",
+   "file": "edit_10.html",
+   "len": 403,
+   "ids": [],
+   "empty": []
+  },
+  {
+   "type": "code",
+   "parts": [
+    "common/cta"
+   ]
+  }
+ ],
+ "carousel": [
+  {
+   "type": "code",
+   "parts": [
+    "carousel/01_hero"
+   ]
+  },
+  {
+   "type": "text",
+   "file": "carousel_02.html",
+   "len": 1628,
+   "ids": [],
+   "empty": []
+  },
+  {
+   "type": "text",
+   "file": "carousel_03.html",
+   "len": 2056,
+   "ids": [],
+   "empty": []
+  },
+  {
+   "type": "text",
+   "file": "carousel_04.html",
+   "len": 2167,
+   "ids": [],
+   "empty": []
+  },
+  {
+   "type": "code",
+   "parts": [
+    "carousel/05_how-its-made",
+    "carousel/06_real-posts"
+   ]
+  },
+  {
+   "type": "text",
+   "file": "carousel_07.html",
+   "len": 943,
+   "ids": [],
+   "empty": []
+  },
+  {
+   "type": "text",
+   "file": "carousel_08.html",
+   "len": 966,
+   "ids": [],
+   "empty": []
+  },
+  {
+   "type": "text",
+   "file": "carousel_09.html",
+   "len": 401,
+   "ids": [],
+   "empty": []
+  },
+  {
+   "type": "code",
+   "parts": [
+    "common/cta"
+   ]
+  }
+ ],
+ "plans": [
+  {
+   "type": "code",
+   "parts": [
+    "plans/01_hero",
+    "plans/02_pricing",
+    "common/cta"
+   ]
+  }
+ ],
+ "work": [
+  {
+   "type": "text",
+   "file": "work_01.html",
+   "len": 413,
+   "ids": [
+    "filters"
+   ],
+   "empty": [
+    "filters"
+   ]
+  },
+  {
+   "type": "code",
+   "parts": [
+    "work/02_grid",
+    "work/03_modal",
+    "common/cta"
+   ]
+  }
+ ]
+}

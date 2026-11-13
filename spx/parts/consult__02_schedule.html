@@ -18,7 +18,7 @@ SPX.def('consult:csSchedule', function(S){
   /* 희망 상담 일정 달력 — 실제 예약 가능 여부는 확인하지 않습니다(평일 · 오늘부터 30일까지만 고를 수 있게 한 안내용 달력). */
   if(!document.getElementById('calGrid')) return;
   var cs = S.cs = S.cs || {};
-  var DOW = ['일','월','화','수','목','금','토'], TIMES = ['10:00','11:00','13:00','14:00','15:00','16:00','17:00'];
+  var DOW = ['일','월','화','수','목','금','토'], TIMES = (function(){ var a=[]; for(var m=600; m<=1140; m+=30) a.push(('0'+Math.floor(m/60)).slice(-2)+':'+('0'+(m%60)).slice(-2)); return a; })();  /* 10:00 ~ 19:00, 30분 단위 */
   var today = new Date(); today.setHours(0,0,0,0);
   var maxD = new Date(today); maxD.setDate(maxD.getDate()+30);
   var view = new Date(today.getFullYear(), today.getMonth(), 1), selD = null, selT = '';

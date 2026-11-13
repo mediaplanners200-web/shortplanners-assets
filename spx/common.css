@@ -283,3 +283,5 @@ body:has(.spx[data-spx-page="consult"]) ._form-widget ._input_form_submit:hover{
 .spx a.btn.btn-ghost,.spx button.btn.btn-ghost{background:rgba(255,255,255,.08)!important;background-color:rgba(255,255,255,.08)!important}
 .spx a.btn.btn-line,.spx button.btn.btn-line{background:transparent!important;background-color:transparent!important}
 .spx .pc.best a.btn,.spx .pc.best a.btn.btn-line{background:#fff!important;background-color:#fff!important}
+/* spx-perf-1: 화면 밖에서는 흐르는·떠다니는 애니메이션 정지 (첫 화면 영상 벽 · 라벨) */
+.spx .stage.paused .col,.spx .stage.paused .chip3d,.spx .cta-stage.paused .cv-chip{animation-play-state:paused}

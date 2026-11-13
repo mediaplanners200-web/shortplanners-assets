@@ -57,16 +57,30 @@ var SPX_YOUTUBE_URL = 'https://media-planners.co.kr/';
   /* ---------- 자산 경로 · 페이지 링크 적용 (data-spx-src / data-spx-poster / data-spx-route) ---------- */
   S.hydrate = function(root){
     (root||document).querySelectorAll('[data-spx-src]').forEach(function(el){ el.setAttribute('src', S.asset(el.getAttribute('data-spx-src'))); el.removeAttribute('data-spx-src'); });
+    (root||document).querySelectorAll('[data-spx-lz]').forEach(function(el){ el.setAttribute('data-lz', S.asset(el.getAttribute('data-spx-lz'))); el.removeAttribute('data-spx-lz'); });
     (root||document).querySelectorAll('[data-spx-poster]').forEach(function(el){ el.setAttribute('poster', S.asset(el.getAttribute('data-spx-poster'))); el.removeAttribute('data-spx-poster'); });
     (root||document).querySelectorAll('a[data-spx-route]').forEach(function(a){ var r=a.getAttribute('data-spx-route').split('#'); a.setAttribute('href', S.route(r[0], r[1]?'#'+r[1]:'')); });
     (root||document).querySelectorAll('a[data-spx-ext="youtube"]').forEach(function(a){ a.href = SPX_YOUTUBE_URL; a.target = '_blank'; a.rel = 'noopener noreferrer'; });
   };
 
   /* ---------- 화면 밖 자동재생 영상 정지 ---------- */
+  /* 휴대폰·태블릿(터치 위주 또는 좁은 화면): 동시에 도는 영상 수를 줄여 버벅임 방지 */
+  S.mobile = !!(window.matchMedia && window.matchMedia('(max-width: 768px), (hover: none) and (pointer: coarse)').matches);
+  /* data-lz 영상: 화면 가까이 올 때 처음으로 주소(src)를 넣어 받기 시작 → 첫 로딩에 영상을 미리 받지 않음 */
   var io = ('IntersectionObserver' in window) ? new IntersectionObserver(function(es){
-    es.forEach(function(en){ var v = en.target; if(v.dataset.hover) return; if(en.isIntersecting && !reduce) S.play(v); else v.pause(); });
-  }, {rootMargin:'100px'}) : null;
-  S.watch = function(scope){ if(!io) return; (scope||document).querySelectorAll('.spx video[autoplay]').forEach(function(v){ if(v.__spxW) return; v.__spxW = 1; io.observe(v); }); };
+    es.forEach(function(en){ var v = en.target; if(v.dataset.hover) return;
+      if(en.isIntersecting && !reduce){ if(!v.getAttribute('src') && v.dataset.lz){ v.src = v.dataset.lz; } S.play(v); }
+      else if(!v.paused) v.pause(); });
+  }, {rootMargin:'150px'}) : null;
+  S.watch = function(scope){
+    var added = [];
+    (scope||document).querySelectorAll('.spx video[autoplay], .spx video[data-lz]').forEach(function(v){
+      if(v.__spxW) return; v.__spxW = 1; added.push(v);
+      if(io) io.observe(v); else if(v.dataset.lz && !v.getAttribute('src')) v.src = v.dataset.lz;
+    });
+    /* 스타일이 늦게 붙어 첫 판정이 '안 보임'으로 끝나는 경우 대비: 잠시 뒤 한 번 더 판정 */
+    if(io && added.length) [700, 2200].forEach(function(t){ setTimeout(function(){ added.forEach(function(v){ io.unobserve(v); io.observe(v); }); }, t); });
+  };
   S.onView = function(el, cb, opt){ if(!('IntersectionObserver' in window)){ cb(true); return; } new IntersectionObserver(function(es){ es.forEach(function(en){ cb(en.isIntersecting); }); }, opt||{}).observe(el); };
 
   /* ---------- 영상 목록 ---------- */
@@ -90,10 +104,20 @@ var SPX_YOUTUBE_URL = 'https://media-planners.co.kr/';
     if(!picked.length) return;
     var cols = wallEl.querySelectorAll('.col'), buckets = [[],[],[]], n = picked.length, total = Math.max(n, 12);
     for(var i=0;i<total;i++){ buckets[i%3].push(picked[(i + (n%3===0 ? Math.floor(i/n) : 0)) % n]); }
+    /* 열마다 실제로 재생할 영상 수: PC는 전부, 휴대폰은 가운데 열 2개 · 양옆 1개 (나머지는 같은 영상의 정지 화면)
+       영상은 화면 가까이 올 때만 받고(data-lz), 화면 밖은 정지 → 동시에 도는 영상은 보이는 것뿐
+       무한 흐름용 두 번째 복사본은 같은 주소라 다시 받지 않음(브라우저 캐시) */
+    var live = S.mobile ? [1,2,1] : [99,99,99];
+    var cell = function(d, k, ci){
+      var poster = S.asset('media/pf/'+d.n+'.jpg');
+      if(k >= live[ci] || reduce) return '<div class="phone"><img src="'+poster+'" alt="" loading="lazy" decoding="async"></div>';
+      return '<div class="phone"><video data-lz="'+S.lite(d)+'" poster="'+poster+'" muted loop playsinline preload="none"></video></div>';
+    };
     cols.forEach(function(col,ci){
-      var html = buckets[ci].map(function(d){ return '<div class="phone"><video src="'+S.lite(d)+'" poster="'+S.asset('media/pf/'+d.n+'.jpg')+'" muted loop playsinline autoplay preload="none"></video></div>'; }).join('');
+      var html = buckets[ci].map(function(d, k){ return cell(d, k, ci); }).join('');
       col.innerHTML = html + html;
     });
+    S.watch(wallEl);
   };
 
   /* ---------- 포트폴리오 그리드 (28칸, 홈 · 숏폼 편집 공용) ---------- */

@@ -56,14 +56,21 @@
     });
   }
   /* 파트 1개: parts/<data-part>.html 을 받아 넣고 안의 <script> 를 순서대로 실행 */
-  function mount(el){
-    if(el.__spxDone) return Promise.resolve(); el.__spxDone = true;
-    var name = (el.getAttribute('data-part') || '').replace(/^\/+|\.html$/g, '');
-    if(!/^[\w-]+\/[\w-]+$/.test(name)){ warn('data-part 형식 오류: ' + name); return Promise.resolve(); }
-    return fetch(SPX + 'parts/' + name.replace(/\//g, '__') + '.html').then(function(r){
+  /* 파트 HTML 은 한꺼번에 미리 받아 두고(병렬), 넣고 실행하는 것만 문서 순서대로 */
+  var cache = {};
+  function partName(el){ return (el.getAttribute('data-part') || '').replace(/^\/+|\.html$/g, ''); }
+  function get(name){
+    if(!cache[name]) cache[name] = fetch(SPX + 'parts/' + name.replace(/\//g, '__') + '.html').then(function(r){
       if(!r.ok) throw new Error(r.status);
       return r.text();
-    }).then(function(html){
+    });
+    return cache[name];
+  }
+  function mount(el){
+    if(el.__spxDone) return Promise.resolve(); el.__spxDone = true;
+    var name = partName(el);
+    if(!/^[\w-]+\/[\w-]+$/.test(name)){ warn('data-part 형식 오류: ' + name); return Promise.resolve(); }
+    return get(name).then(function(html){
       el.innerHTML = html.replace(/^\s*<!--[\s\S]*?-->\s*/, '');
       var list = [].slice.call(el.querySelectorAll('script'));
       return list.reduce(function(p, sc){ return p.then(function(){ return runScript(sc); }); }, Promise.resolve());
@@ -71,6 +78,7 @@
   }
   function mountAll(){
     var parts = [].slice.call(document.querySelectorAll('.spx-part[data-part]'));
+    parts.forEach(function(el){ var n = partName(el); if(!el.__spxDone && /^[\w-]+\/[\w-]+$/.test(n)) get(n).catch(function(){}); });
     return parts.reduce(function(p, el){ return p.then(function(){ return mount(el); }); }, Promise.resolve());
   }
 

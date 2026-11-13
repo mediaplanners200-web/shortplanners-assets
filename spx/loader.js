@@ -92,7 +92,12 @@
   /* 3) 공용 JS(영상 데이터 + 공용 기능) 1회 → 파트들을 문서 순서대로 */
   function start(){
     var ready = window.SPX ? Promise.resolve() : loadScript(SPX + 'common.js');
-    ready.then(mountAll).then(function(){
+    ready.then(function(){
+      /* 위젯에 미리 넣은 파트의 스크립트는 window.__spxQ 에 줄 서 있음 → 공용 JS 가 준비된 지금 순서대로 실행 */
+      var q = window.__spxQ || [];
+      window.__spxQ = { push: function(f){ try{ f(); }catch(e){ warn('파트 스크립트 오류', e); } } };
+      for(var i = 0; i < q.length; i++){ try{ q[i](); }catch(e){ warn('파트 스크립트 오류', e); } }
+    }).then(mountAll).then(function(){
       /* 늦게 그려지는 위젯 대비: 이후에 생긴 .spx-part 도 처리 */
       if('MutationObserver' in window){
         var t = null;

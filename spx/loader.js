@@ -29,6 +29,8 @@
   }
   addLink('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;700;800;900&family=Noto+Sans+KR:wght@400;500;700;900&display=swap', 'spx-fonts');
   addLink(SPX + 'common.css', 'spx-common-css');
+  /* CSS 를 못 받아도 내용이 숨겨진 채로 남지 않게 (data-spx-fouc 안전장치) */
+  setTimeout(function(){ var h = document.querySelectorAll('[data-spx-fouc]'); for(var i = 0; i < h.length; i++) h[i].style.opacity = '1'; }, 4000);
 
   /* 스크립트 1개 실행 (외부 src 는 다 받은 뒤 다음으로) */
   function runScript(old){

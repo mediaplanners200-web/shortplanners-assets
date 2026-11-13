@@ -257,3 +257,5 @@ body:has(.spx[data-spx-page="consult"]) ._form-widget ._input_form_submit:hover{
 /* spx-imweb-label-guard : 아임웹 기본 label 스타일(가로 100%)이 타임라인 줄 이름을 늘리는 문제 */
 .spx .tl-r label{display:block!important;flex:0 0 28px!important;width:28px!important;min-width:28px!important;max-width:28px!important;margin:0!important;padding:0!important;line-height:1.2!important}/* spx-imweb-img-guard : 아임웹이 이미지 높이를 원본 크기로 강제하는 문제 (카드뉴스 단일 이미지) */
 .spx .ty-img.one img{height:100%!important;width:auto!important;max-width:none!important}
+/* spx-fouc : 페이지 맨 위 텍스트 위젯은 공용 CSS 가 들어오기 전까지 숨김 (style="opacity:0" 을 이 규칙이 덮어씀) */
+.spx[data-spx-fouc]{opacity:1!important;transition:opacity .15s ease}

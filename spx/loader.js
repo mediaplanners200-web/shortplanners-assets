@@ -20,6 +20,19 @@
   window.SPX_CONFIG = window.SPX_CONFIG || {};
   if(!window.SPX_CONFIG.assetBase) window.SPX_CONFIG.assetBase = ROOT;
 
+  /* 영상 목록(포트폴리오 순서 · 첫 화면 영상)은 버전 고정 없이 GitHub main 의 spx/portfolio.json 에서 받음
+     → 영상을 빼거나 순서를 바꿀 때 이 파일 하나만 고치면 됨 (반영까지 최대 5분). 못 받으면 common.js 안의 목록 사용 */
+  var LIVE = (window.fetch ? Promise.race([
+    fetch('https://raw.githubusercontent.com/mediaplanners200-web/shortplanners-assets/main/spx/portfolio.json').then(function(r){ return r.ok ? r.json() : null; }),
+    new Promise(function(res){ setTimeout(function(){ res(null); }, 2000); })
+  ]) : Promise.resolve(null)).catch(function(){ return null; });
+  function applyLive(d){
+    if(!d) return;
+    var ok = function(a){ return Array.isArray(a) && a.length && a.every(function(n){ return typeof n === 'number'; }); };
+    if(ok(d.portfolio)) window.SPX_PORTFOLIO = d.portfolio;
+    if(ok(d.hero)) window.SPX_HERO = d.hero;
+  }
+
   /* 2) 공용 CSS + 글꼴: <head>에 1회 */
   function addLink(href, id){
     if(id && document.getElementById(id)) return;
@@ -91,8 +104,9 @@
 
   /* 3) 공용 JS(영상 데이터 + 공용 기능) 1회 → 파트들을 문서 순서대로 */
   function start(){
-    var ready = window.SPX ? Promise.resolve() : loadScript(SPX + 'common.js');
-    ready.then(function(){
+    var ready = Promise.all([window.SPX ? Promise.resolve() : loadScript(SPX + 'common.js'), LIVE]);
+    ready.then(function(res){
+      applyLive(res[1]);
       /* 위젯에 미리 넣은 파트의 스크립트는 window.__spxQ 에 줄 서 있음 → 공용 JS 가 준비된 지금 순서대로 실행 */
       var q = window.__spxQ || [];
       window.__spxQ = { push: function(f){ try{ f(); }catch(e){ warn('파트 스크립트 오류', e); } } };
